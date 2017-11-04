@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="VolumeView">
-        <attr name="android:src" format="reference"/>
+        <attr name="android:src"/>
     </declare-styleable>
 
     <declare-styleable name="TriangleView">
