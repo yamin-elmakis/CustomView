@@ -9,7 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
-    private VolumeView triangle;
+    private VolumeView volumeView;
     private Button bPlus, bMinus;
     private ArcView arcView;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getLayoutRes() {
-        triangle = (VolumeView) findViewById(R.id.custom_view);
+        volumeView = (VolumeView) findViewById(R.id.custom_view);
         bPlus = (Button) findViewById(R.id.b_plus);
         bMinus = (Button) findViewById(R.id.b_minus);
         arcView = (ArcView) findViewById(R.id.main_arc);
@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.b_plus:
-                triangle.increase();
+                volumeView.increase();
                 break;
 
             case R.id.b_minus:
-                triangle.decrease();
+                volumeView.decrease();
                 break;
 
             case R.id.main_arc:
