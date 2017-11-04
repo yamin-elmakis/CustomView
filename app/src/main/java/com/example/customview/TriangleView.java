@@ -3,30 +3,22 @@ package com.example.customview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
+/**
+ * Created by Yamin on 25-Sep-17.
+ */
 public class TriangleView extends View {
     private final String TAG = "TriangleView";
-    private final int DEFAULT_HEIGHT = 150;
-    private final int MAX_PERCENTAGE_VALUE = 1;
-    private final int MIN_PERCENTAGE_VALUE = 0;
-    private final int STROKE_WIDTH = 2;
-    private final float DELTA = (float) 0.05;
-    private Paint red;
-    private Paint green;
-    private Paint white;
-    private Path bigT;
-    private Path smallT;
-    private Drawable drawable;
+    private Paint paint;
+    private Path path;
     private int layoutWidth, layoutHeight;
-    private float percentage = (float) 0;
-    private double angle;
 
     public TriangleView(Context context) {
         this(context, null);
@@ -40,132 +32,81 @@ public class TriangleView extends View {
         super(context, attrs, defStyle);
         setFocusable(true);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TriangleView, 0, defStyle);
-        drawable = a.getDrawable(R.styleable.TriangleView_android_src);
-        if (drawable != null) {
-            updateContentBounds();
-            invalidate();
+        int color = Color.WHITE;
+        if (attrs != null) {
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TriangleView);
+            color = ta.getColor(R.styleable.TriangleView_triangle_color, Color.WHITE);
+            ta.recycle();
         }
 
-        red = new Paint(Paint.ANTI_ALIAS_FLAG);
-        green = new Paint(Paint.ANTI_ALIAS_FLAG);
-        white = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        setPaintParams(red, android.graphics.Color.RED);
-        setPaintParams(green, android.graphics.Color.GREEN);
-        setPaintParams(white, android.graphics.Color.WHITE);
-
-        bigT = new Path();
-        smallT = new Path();
-
-        percentage = 0.5f;
-        a.recycle();
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        setPaintParams(paint, color);
+        path = new Path();
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        Log.e(TAG, "onMeasure: widthSpec: "+widthMeasureSpec+" heightSpec: "+heightMeasureSpec);
-//        Log.e(TAG, "onMeasure: MeasuredWidth: "+getMeasuredWidth());
+        int desiredWidth = 100;
+        int desiredHeight = 100;
 
-        ViewGroup.LayoutParams viewParams = getLayoutParams();
-        layoutWidth = viewParams.width;
-        layoutHeight = viewParams.height;
-        if (layoutWidth < 0)
-            //Get the width measurement
-            layoutWidth = View.resolveSize(getMeasuredWidth(), widthMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (layoutHeight < 0)
-            //Get the height measurement
-            layoutHeight = View.resolveSize(DEFAULT_HEIGHT, heightMeasureSpec);
-
-        Log.e(TAG, "onMeasure: layoutHeight: " + layoutHeight);
-        Log.e(TAG, "onMeasure: layoutWidth: " + layoutWidth);
-
-        //MUST call this to store the measurements
-        setMeasuredDimension(layoutWidth, layoutHeight);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        Log.e(TAG, "onSizeChanged: oldw: " + oldw + " w: " + w + " oldh: " + oldh + " h: " + h);
-        if (w != oldw || h != oldh) {
-            updateContentBounds();
+        //Measure Width
+        if (widthMode == MeasureSpec.EXACTLY) {
+            //Must be this size
+            layoutWidth = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            //Can't be bigger than...
+            layoutWidth = Math.min(desiredWidth, widthSize);
+        } else {
+            //Be whatever you want
+            layoutWidth = desiredWidth;
         }
-    }
+        //Measure Height
+        if (heightMode == MeasureSpec.EXACTLY) {
+            //Must be this size
+            layoutHeight = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            //Can't be bigger than...
+            layoutHeight = Math.min(desiredHeight, heightSize);
+        } else {
+            //Be whatever you want
+            layoutHeight = desiredHeight;
+        }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        Log.e(TAG, "onLayout: left: " + left + " top: " + top + " right: " + right + " bottom: " + bottom);
+        setMeasuredDimension(layoutWidth, layoutHeight);
+        setPathParams(path);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.e(TAG, "onDraw");
-//        width = (int)getMeasuredWidth();
-        angle = Math.atan2(layoutHeight, layoutWidth);
-        canvas.save();
-        setPathParams(bigT, MAX_PERCENTAGE_VALUE);
-        smallT.setFillType(Path.FillType.EVEN_ODD);
-        setPathParams(smallT, percentage);
-
-        canvas.drawPath(bigT, white);
-        if (percentage > 0.8) {
-            canvas.drawPath(smallT, red);
-        } else {
-            canvas.drawPath(smallT, green);
-        }
-
-        canvas.restore();
-
-        if (drawable != null) {
-            drawable.draw(canvas);
-        }
-    }
-
-    private void updateContentBounds() {
-        if (drawable == null) return;
-        int left = (int) (layoutWidth * percentage - drawable.getIntrinsicWidth() / 2);
-        int top = (int) (layoutHeight*(MAX_PERCENTAGE_VALUE - percentage) + (layoutHeight * percentage)/2 - drawable.getIntrinsicHeight() / 2);
-        drawable.setBounds(left, top, left + drawable.getIntrinsicWidth(), top + drawable.getIntrinsicHeight());
+        canvas.drawPath(path, paint);
     }
 
     private void setPaintParams(Paint paint, int color) {
-        paint.setStrokeWidth(STROKE_WIDTH);
         paint.setColor(color);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
     }
 
-    private void setPathParams(Path triangle, float percentage) {
+    private void setPathParams(Path triangle) {
         triangle.reset();
-        triangle.moveTo(0, layoutHeight);                        // go to start position
-        triangle.lineTo(layoutWidth * percentage, layoutHeight);    // draw base line
-        triangle.lineTo(layoutWidth * percentage, layoutHeight - (float) (layoutWidth * percentage * Math.tan(angle)));// draw height line
-        triangle.lineTo(0, layoutHeight);                        // draw the hypotenuse
+        triangle.moveTo(getPaddingLeft(), getPaddingTop());
+        triangle.lineTo(layoutWidth - getPaddingRight(), getPaddingTop());
+        triangle.lineTo(layoutWidth / 2, layoutHeight - getPaddingBottom());
+        triangle.lineTo(getPaddingLeft(), getPaddingTop());
         triangle.close();
     }
 
-    public float getPercentage() {
-        return percentage;
+    public void setColorRes(@ColorRes int color) {
+        setColor(ContextCompat.getColor(getContext(), color));
     }
 
-    public void setPercentage(float percentage) {
-        if (percentage > MAX_PERCENTAGE_VALUE || percentage < MIN_PERCENTAGE_VALUE)
-            return;
-        this.percentage = (float) Math.round(percentage * 100) / 100;
-        updateContentBounds();
+    public void setColor(int color) {
+        paint.setColor(color);
         invalidate();
-    }
-
-    public void increase() {
-        setPercentage(getPercentage() + DELTA);
-    }
-
-    public void decrease() {
-        setPercentage(getPercentage() - DELTA);
     }
 }

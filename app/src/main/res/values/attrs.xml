@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="VolumeView">
+        <attr name="android:src" format="reference"/>
+    </declare-styleable>
+
     <declare-styleable name="TriangleView">
-        <attr name="android:src"/>
+        <attr name="triangle_color" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleView">
+        <attr name="circle_top_color" format="reference"/>
+        <attr name="circle_bottom_color" format="reference"/>
+        <attr name="circle_stroke_width" format="dimension"/>
     </declare-styleable>
 </resources>
