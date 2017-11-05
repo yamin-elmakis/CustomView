@@ -19,7 +19,7 @@ VolumeView
 ``` java
 
     volumeView.increase();
-	volumeView.decrease();
+    volumeView.decrease();
 
 ```
 
