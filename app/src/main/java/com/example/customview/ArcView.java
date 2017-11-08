@@ -51,7 +51,6 @@ public class ArcView extends View {
         titlePaint = new Paint();
         titlePaint.setAntiAlias(true);
         titlePaint.setTextAlign(Paint.Align.CENTER);
-        titlePaint.setTextSize(21 * Resources.getSystem().getDisplayMetrics().scaledDensity);
     }
 
     @Override
@@ -91,9 +90,13 @@ public class ArcView extends View {
         float size = Math.min(layoutWidth, layoutHeight) / 10;
         arcPaint.setStrokeWidth(size);
         backPaint.setStrokeWidth(size);
+        titlePaint.setTextSize(size * Resources.getSystem().getDisplayMetrics().scaledDensity);
         size = size / 2;
-        arcRect.set(size, size, layoutWidth - size, 2*layoutHeight - size);
-        textPoint.set(layoutWidth /2, 0.97f*layoutHeight);
+        arcRect.set(size + getPaddingLeft(),
+                size + getPaddingTop() ,
+                layoutWidth - size - getPaddingRight(),
+                2 * layoutHeight - size - 2*getPaddingBottom() - getPaddingTop());
+        textPoint.set(layoutWidth / 2, 0.97f * layoutHeight);
     }
 
     @Override
