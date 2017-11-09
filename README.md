@@ -29,13 +29,21 @@ ArcView
 
     <com.example.customview.ArcView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:arc_low_color="@color/red"
+        app:arc_mid_color="@color/orange"
+        app:arc_high_color="@color/green"
+        app:arc_width="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/grey" />
 
 ```
 
 ``` java
 
 	arcView.setDestAngle(160);
+    arcView.setHighColor(ContextCompat.getColor(this, R.color.yellow));
+    arcView.setBackColorRes(R.color.red);
 
 ```
 

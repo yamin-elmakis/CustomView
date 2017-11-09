@@ -11,9 +11,13 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import static android.support.v4.content.ContextCompat.getColor;
 
 /**
  * Created by Yamin on 29-Jan-17.
@@ -70,7 +74,7 @@ public class ArcView extends View {
         backPaint = new Paint();
         backPaint.setAntiAlias(true);
         backPaint.setStyle(Paint.Style.STROKE);
-        backPaint.setColor(backColor);
+        setBackColor(backColor);
 
         arcPaint = new Paint();
         arcPaint.setAntiAlias(true);
@@ -83,7 +87,7 @@ public class ArcView extends View {
         titlePaint.setAntiAlias(true);
         titlePaint.setTextAlign(Paint.Align.CENTER);
         if (textColor != 0)
-            titlePaint.setColor(textColor);
+            setTextColor(textColor);
     }
 
     @Override
@@ -159,13 +163,13 @@ public class ArcView extends View {
     public void setDestAngle(int destAngle, long durationInMillis) {
         if (destAngle < 72) {
             arcPaint.setColor(lowColor);
-            titlePaint.setColor(textColor != 0 ? textColor : lowColor);
+            setTextColor(textColor != 0 ? textColor : lowColor);
         } else if (destAngle < 125) {
             arcPaint.setColor(midColor);
-            titlePaint.setColor(textColor != 0 ? textColor : midColor);
+            setTextColor(textColor != 0 ? textColor : midColor);
         } else {
             arcPaint.setColor(highColor);
-            titlePaint.setColor(textColor != 0 ? textColor : highColor);
+            setTextColor(textColor != 0 ? textColor : highColor);
         }
         ValueAnimator anim = ValueAnimator.ofObject(new IntEvaluator(), 0, destAngle);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -176,5 +180,83 @@ public class ArcView extends View {
         });
         anim.setDuration(durationInMillis);
         anim.start();
+    }
+
+    public int getTextSize() {
+        return textSize;
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+    }
+
+    public int getArcWidth() {
+        return arcWidth;
+    }
+
+    public void setArcWidth(int arcWidth) {
+        this.arcWidth = arcWidth;
+    }
+
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColorRes(@ColorRes int textColor) {
+        setTextColor(ContextCompat.getColor(getContext(), textColor));
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+        titlePaint.setColor(textColor);
+    }
+
+    public int getLowColor() {
+        return lowColor;
+    }
+
+    public void setLowColorRes(@ColorRes int lowColor) {
+        setLowColor(ContextCompat.getColor(getContext(), lowColor));
+    }
+
+    public void setLowColor(int lowColor) {
+        this.lowColor = lowColor;
+    }
+
+    public int getMidColor() {
+        return midColor;
+    }
+
+    public void setMidColorRes(@ColorRes int midColor) {
+        setMidColor(ContextCompat.getColor(getContext(), midColor));
+    }
+
+    public void setMidColor(int midColor) {
+        this.midColor = midColor;
+    }
+
+    public int getHighColor() {
+        return highColor;
+    }
+
+    public void setHighColor(int highColor) {
+        this.highColor = highColor;
+    }
+
+    public void setHighColorRes(@ColorRes int highColor) {
+        this.highColor = getColor(getContext(), highColor);
+    }
+
+    public int getBackColor() {
+        return backColor;
+    }
+
+    public void setBackColor(int backColor) {
+        this.backColor = backColor;
+        backPaint.setColor(backColor);
+    }
+
+    public void setBackColorRes(int backColor) {
+        setBackColor(ContextCompat.getColor(getContext(), backColor));
     }
 }

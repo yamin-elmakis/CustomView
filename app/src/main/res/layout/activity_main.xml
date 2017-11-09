@@ -52,12 +52,12 @@
 
     <com.example.customview.ArcView
         android:id="@+id/main_arc"
-        android:layout_width="100dp"
-        android:textColor="@color/orange"
-        app:arc_width="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/purple"
         android:textSize="25sp"
         app:arc_back_color="@color/orange"
-        android:layout_height="50dp" />
+        app:arc_width="10dp" />
 
     <TextView
         android:layout_width="wrap_content"

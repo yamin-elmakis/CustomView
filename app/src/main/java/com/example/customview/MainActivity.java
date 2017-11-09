@@ -1,6 +1,7 @@
 package com.example.customview;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         getLayoutRes();
         initRes();
+
+
     }
 
     private void getLayoutRes() {
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bPlus.setOnClickListener(this);
         bMinus.setOnClickListener(this);
         arcView.setDestAngle(160, 1300);
+        arcView.setHighColor(ContextCompat.getColor(this, R.color.yellow));
+        arcView.setBackColorRes(R.color.red);
     }
 
     @Override
