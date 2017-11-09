@@ -13,4 +13,14 @@
         <attr name="circle_bottom_color" format="reference"/>
         <attr name="circle_stroke_width" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="ArcView">
+        <attr name="android:textColor"/>
+        <attr name="android:textSize"/>
+        <attr name="arc_back_color" format="reference"/>
+        <attr name="arc_low_color" format="reference"/>
+        <attr name="arc_mid_color" format="reference"/>
+        <attr name="arc_high_color" format="reference"/>
+        <attr name="arc_width" format="dimension"/>
+    </declare-styleable>
 </resources>

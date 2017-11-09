@@ -4,12 +4,14 @@ import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -23,12 +25,21 @@ public class ArcView extends View {
     private RectF arcRect;
     private PointF textPoint;
     private int layoutWidth, layoutHeight;
-    private int arcAngle, dp5;
+    private int arcAngle, dp5, textSize, arcWidth;
     private String value;
     private Rect textBounds;
+    private int textColor, lowColor, midColor, highColor, backColor;
 
-    public ArcView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public ArcView(Context context) {
+        this(context, null);
+    }
+
+    public ArcView(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public ArcView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
 
         // Set Angle to 0 initially
         arcAngle = 0;
@@ -36,10 +47,30 @@ public class ArcView extends View {
 
         dp5 = (int) (5 * Resources.getSystem().getDisplayMetrics().density);
 
+        textColor = 0;
+        lowColor = Color.RED;
+        midColor = Color.YELLOW;
+        highColor = Color.GREEN;
+        backColor = Color.GRAY;
+        textSize = -1;
+        arcWidth = -1;
+
+        if (attrs != null) {
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ArcView);
+            textColor = ta.getColor(R.styleable.ArcView_android_textColor, textColor);
+            lowColor = ta.getColor(R.styleable.ArcView_arc_low_color, lowColor);
+            midColor = ta.getColor(R.styleable.ArcView_arc_mid_color, midColor);
+            highColor = ta.getColor(R.styleable.ArcView_arc_high_color, highColor);
+            backColor = ta.getColor(R.styleable.ArcView_arc_back_color, backColor);
+            textSize = ta.getDimensionPixelSize(R.styleable.ArcView_android_textSize, textSize);
+            arcWidth = ta.getDimensionPixelSize(R.styleable.ArcView_arc_width, arcWidth);
+            ta.recycle();
+        }
+
         backPaint = new Paint();
         backPaint.setAntiAlias(true);
         backPaint.setStyle(Paint.Style.STROKE);
-        backPaint.setColor(Color.parseColor("#e1e5f0"));
+        backPaint.setColor(backColor);
 
         arcPaint = new Paint();
         arcPaint.setAntiAlias(true);
@@ -51,6 +82,8 @@ public class ArcView extends View {
         titlePaint = new Paint();
         titlePaint.setAntiAlias(true);
         titlePaint.setTextAlign(Paint.Align.CENTER);
+        if (textColor != 0)
+            titlePaint.setColor(textColor);
     }
 
     @Override
@@ -87,15 +120,16 @@ public class ArcView extends View {
         }
         this.setMeasuredDimension(layoutWidth, layoutHeight);
 
-        float size = Math.min(layoutWidth, layoutHeight) / 10;
+        float size = arcWidth > 0 ? arcWidth : Math.min(layoutWidth, layoutHeight) / 10;
+        float textFinalSize = textSize > 0 ? textSize : size * Resources.getSystem().getDisplayMetrics().scaledDensity;
         arcPaint.setStrokeWidth(size);
         backPaint.setStrokeWidth(size);
-        titlePaint.setTextSize(size * Resources.getSystem().getDisplayMetrics().scaledDensity);
+        titlePaint.setTextSize(textFinalSize);
         size = size / 2;
         arcRect.set(size + getPaddingLeft(),
-                size + getPaddingTop() ,
+                size + getPaddingTop(),
                 layoutWidth - size - getPaddingRight(),
-                2 * layoutHeight - size - 2*getPaddingBottom() - getPaddingTop());
+                2 * layoutHeight - size - 2 * getPaddingBottom() - getPaddingTop());
         textPoint.set(layoutWidth / 2, 0.97f * layoutHeight);
     }
 
@@ -119,16 +153,19 @@ public class ArcView extends View {
     }
 
     public void setDestAngle(int destAngle) {
-        if (destAngle < 72) {
-            titlePaint.setColor(Color.parseColor("#E53935"));
-            arcPaint.setColor(Color.parseColor("#E53935"));
-        } else if (destAngle < 125) {
-            titlePaint.setColor(Color.parseColor("#FBC02D"));
-            arcPaint.setColor(Color.parseColor("#FBC02D"));
-        } else {
-            titlePaint.setColor(Color.parseColor("#00E676"));
-            arcPaint.setColor(Color.parseColor("#00E676"));
+        setDestAngle(destAngle, 1000);
+    }
 
+    public void setDestAngle(int destAngle, long durationInMillis) {
+        if (destAngle < 72) {
+            arcPaint.setColor(lowColor);
+            titlePaint.setColor(textColor != 0 ? textColor : lowColor);
+        } else if (destAngle < 125) {
+            arcPaint.setColor(midColor);
+            titlePaint.setColor(textColor != 0 ? textColor : midColor);
+        } else {
+            arcPaint.setColor(highColor);
+            titlePaint.setColor(textColor != 0 ? textColor : highColor);
         }
         ValueAnimator anim = ValueAnimator.ofObject(new IntEvaluator(), 0, destAngle);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -137,7 +174,7 @@ public class ArcView extends View {
                 setArcAngle((Integer) animation.getAnimatedValue());
             }
         });
-        anim.setDuration(1000);
+        anim.setDuration(durationInMillis);
         anim.start();
     }
 }

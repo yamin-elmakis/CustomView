@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initRes() {
         bPlus.setOnClickListener(this);
         bMinus.setOnClickListener(this);
-        arcView.setDestAngle(160);
+        arcView.setDestAngle(160, 1300);
     }
 
     @Override
