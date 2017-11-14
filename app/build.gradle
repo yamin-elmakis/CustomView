@@ -22,4 +22,5 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.yamin-elmakis:EasyLog:v1.1'
 }
