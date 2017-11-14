@@ -101,7 +101,6 @@ public class VolumeView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-//        Log.e(TAG, "onSizeChanged: oldw: " + oldw + " w: " + w + " oldh: " + oldh + " h: " + h);
         if (w != oldw || h != oldh) {
             updateContentBounds();
         }
@@ -110,13 +109,10 @@ public class VolumeView extends View {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-//        Log.e(TAG, "onLayout: left: " + left + " top: " + top + " right: " + right + " bottom: " + bottom);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        Log.e(TAG, "onDraw");
-//        width = (int)getMeasuredWidth();
         angle = Math.atan2(layoutHeight, layoutWidth);
         canvas.save();
         setPathParams(bigT, MAX_PERCENTAGE_VALUE);
@@ -153,10 +149,11 @@ public class VolumeView extends View {
 
     private void setPathParams(Path triangle, float percentage) {
         triangle.reset();
-        triangle.moveTo(0, layoutHeight);                        // go to start position
+        triangle.moveTo(0, layoutHeight);                           // go to start position
         triangle.lineTo(layoutWidth * percentage, layoutHeight);    // draw base line
-        triangle.lineTo(layoutWidth * percentage, layoutHeight - (float) (layoutWidth * percentage * Math.tan(angle)));// draw height line
-        triangle.lineTo(0, layoutHeight);                        // draw the hypotenuse
+        triangle.lineTo(layoutWidth * percentage, layoutHeight -
+                (float) (layoutWidth * percentage * Math.tan(angle)));// draw height line
+        triangle.lineTo(0, layoutHeight);                            // draw the hypotenuse
         triangle.close();
     }
 

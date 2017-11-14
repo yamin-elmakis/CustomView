@@ -3,9 +3,10 @@ package com.example.customview;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import lib.yamin.easylog.EasyLog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -18,10 +19,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EasyLog.showLogs(true);
         getLayoutRes();
         initRes();
-
-
     }
 
     private void getLayoutRes() {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.main_arc:
-                Log.d(TAG, "onClick: arc");
+                EasyLog.d("arc");
                 break;
         }
     }
