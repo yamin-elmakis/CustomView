@@ -4,7 +4,7 @@ with support to XML attributes and image src
 
 ![Main Screen](images/Screenshot_Main.png)
 
-### Usage
+### Examples
 
 VolumeView
 
@@ -12,7 +12,12 @@ VolumeView
 
     <com.example.customview.VolumeView
         android:layout_width="200dp"
-        android:layout_height="75dp" />
+        android:layout_height="75dp"
+        android:src="@android:drawable/ic_lock_silent_mode_off"
+        app:volume_back_color="@color/purple"
+        app:volume_normal_color="@color/orange"
+        app:volume_base_percentage="0.4"
+        app:volume_high_percentage="0.7"/>
 
 ```
 

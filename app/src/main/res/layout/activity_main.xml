@@ -33,7 +33,11 @@
             android:id="@+id/custom_view"
             android:layout_width="200dp"
             android:layout_height="75dp"
-            android:paddingBottom="50dp" />
+            android:src="@android:drawable/ic_lock_silent_mode_off"
+            app:volume_back_color="@color/purple"
+            app:volume_normal_color="@color/orange"
+            app:volume_base_percentage="0.4"
+            app:volume_high_percentage="0.7" />
 
         <Button
             android:id="@+id/b_plus"

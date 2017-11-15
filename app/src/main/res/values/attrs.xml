@@ -2,6 +2,12 @@
 <resources>
     <declare-styleable name="VolumeView">
         <attr name="android:src"/>
+        <attr name="volume_back_color" format="reference"/>
+        <attr name="volume_normal_color" format="reference"/>
+        <attr name="volume_high_color" format="reference"/>
+        <attr name="volume_high_percentage" format="float"/>
+        <attr name="volume_delta" format="float"/>
+        <attr name="volume_base_percentage" format="float"/>
     </declare-styleable>
 
     <declare-styleable name="TriangleView">

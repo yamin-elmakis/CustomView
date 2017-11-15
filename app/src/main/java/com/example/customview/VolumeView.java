@@ -10,20 +10,14 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class VolumeView extends View {
-    private final String TAG = "VolumeView";
-    private final int DEFAULT_HEIGHT = 150;
-    private final int MAX_PERCENTAGE_VALUE = 1;
-    private final int MIN_PERCENTAGE_VALUE = 0;
-    private final int STROKE_WIDTH = 2;
-    private final float DELTA = (float) 0.05;
-    private Paint red;
-    private Paint green;
-    private Paint white;
-    private Path bigT;
-    private Path smallT;
+    private final static int MAX_PERCENTAGE_VALUE = 1;
+    private final static int MIN_PERCENTAGE_VALUE = 0;
+
+    private Paint highPaint, normalPaint, backPaint;
+    private Path bigT, smallT;
     private Drawable drawable;
     private int layoutWidth, layoutHeight;
-    private float percentage = (float) 0;
+    private float percentage, highPercentage, delta;
     private double angle;
 
     public VolumeView(Context context) {
@@ -38,8 +32,20 @@ public class VolumeView extends View {
         super(context, attrs, defStyle);
         setFocusable(true);
 
+        highPercentage = 0.8f;
+        percentage = 0.5f;
+        delta = 0.05f;
+        int backColor = android.graphics.Color.WHITE;
+        int normalColor = android.graphics.Color.GREEN;
+        int highColor = android.graphics.Color.RED;
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VolumeView, 0, defStyle);
+            backColor = ta.getColor(R.styleable.VolumeView_volume_back_color, backColor);
+            normalColor = ta.getColor(R.styleable.VolumeView_volume_normal_color, normalColor);
+            highColor = ta.getColor(R.styleable.VolumeView_volume_high_color, highColor);
+            highPercentage = ta.getFloat(R.styleable.VolumeView_volume_high_percentage, highPercentage);
+            percentage = ta.getFloat(R.styleable.VolumeView_volume_base_percentage, percentage);
+            delta = ta.getFloat(R.styleable.VolumeView_volume_delta, delta);
             drawable = ta.getDrawable(R.styleable.VolumeView_android_src);
             if (drawable != null) {
                 updateContentBounds();
@@ -48,18 +54,18 @@ public class VolumeView extends View {
             ta.recycle();
         }
 
-        red = new Paint(Paint.ANTI_ALIAS_FLAG);
-        green = new Paint(Paint.ANTI_ALIAS_FLAG);
-        white = new Paint(Paint.ANTI_ALIAS_FLAG);
+        highPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        normalPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        backPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        setPaintParams(red, android.graphics.Color.RED);
-        setPaintParams(green, android.graphics.Color.GREEN);
-        setPaintParams(white, android.graphics.Color.WHITE);
+        setPaintParams(highPaint, highColor);
+        setPaintParams(normalPaint, normalColor);
+        setPaintParams(backPaint, backColor);
 
         bigT = new Path();
-        smallT = new Path();
 
-        percentage = 0.5f;
+        smallT = new Path();
+        smallT.setFillType(Path.FillType.EVEN_ODD);
     }
 
     @Override
@@ -96,6 +102,7 @@ public class VolumeView extends View {
         }
 
         setMeasuredDimension(layoutWidth, layoutHeight);
+        angle = Math.atan2(layoutHeight, layoutWidth);
     }
 
     @Override
@@ -107,26 +114,17 @@ public class VolumeView extends View {
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
-        angle = Math.atan2(layoutHeight, layoutWidth);
-        canvas.save();
         setPathParams(bigT, MAX_PERCENTAGE_VALUE);
-        smallT.setFillType(Path.FillType.EVEN_ODD);
         setPathParams(smallT, percentage);
 
-        canvas.drawPath(bigT, white);
-        if (percentage > 0.8) {
-            canvas.drawPath(smallT, red);
-        } else {
-            canvas.drawPath(smallT, green);
-        }
+        canvas.drawPath(bigT, backPaint);
 
-        canvas.restore();
+        if (percentage > highPercentage) {
+            canvas.drawPath(smallT, highPaint);
+        } else {
+            canvas.drawPath(smallT, normalPaint);
+        }
 
         if (drawable != null) {
             drawable.draw(canvas);
@@ -135,13 +133,13 @@ public class VolumeView extends View {
 
     private void updateContentBounds() {
         if (drawable == null) return;
+
         int left = (int) (layoutWidth * percentage - drawable.getIntrinsicWidth() / 2);
-        int top = (int) (layoutHeight*(MAX_PERCENTAGE_VALUE - percentage) + (layoutHeight * percentage)/2 - drawable.getIntrinsicHeight() / 2);
+        int top = (int) (layoutHeight * (MAX_PERCENTAGE_VALUE - percentage) + (layoutHeight * percentage) / 2 - drawable.getIntrinsicHeight() / 2);
         drawable.setBounds(left, top, left + drawable.getIntrinsicWidth(), top + drawable.getIntrinsicHeight());
     }
 
     private void setPaintParams(Paint paint, int color) {
-        paint.setStrokeWidth(STROKE_WIDTH);
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setAntiAlias(true);
@@ -170,10 +168,10 @@ public class VolumeView extends View {
     }
 
     public void increase() {
-        setPercentage(getPercentage() + DELTA);
+        setPercentage(getPercentage() + delta);
     }
 
     public void decrease() {
-        setPercentage(getPercentage() - DELTA);
+        setPercentage(getPercentage() - delta);
     }
 }
