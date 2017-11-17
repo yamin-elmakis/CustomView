@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -17,6 +18,7 @@ public class VolumeView extends View {
     private Path bigT, smallT;
     private Drawable drawable;
     private int layoutWidth, layoutHeight;
+    private RectF viewRect;
     private float percentage, highPercentage, delta;
     private double angle;
 
@@ -66,6 +68,7 @@ public class VolumeView extends View {
 
         smallT = new Path();
         smallT.setFillType(Path.FillType.EVEN_ODD);
+        viewRect = new RectF(0, 0, 1, 1);
     }
 
     @Override
@@ -102,7 +105,12 @@ public class VolumeView extends View {
         }
 
         setMeasuredDimension(layoutWidth, layoutHeight);
-        angle = Math.atan2(layoutHeight, layoutWidth);
+        viewRect.set(getPaddingLeft(),
+                getPaddingTop(),
+                layoutWidth - getPaddingRight(),
+                layoutHeight - getPaddingBottom());
+
+        angle = Math.atan2(viewRect.height(), viewRect.width());
     }
 
     @Override
@@ -147,11 +155,12 @@ public class VolumeView extends View {
 
     private void setPathParams(Path triangle, float percentage) {
         triangle.reset();
-        triangle.moveTo(0, layoutHeight);                           // go to start position
-        triangle.lineTo(layoutWidth * percentage, layoutHeight);    // draw base line
-        triangle.lineTo(layoutWidth * percentage, layoutHeight -
-                (float) (layoutWidth * percentage * Math.tan(angle)));// draw height line
-        triangle.lineTo(0, layoutHeight);                            // draw the hypotenuse
+        triangle.moveTo(viewRect.left, viewRect.bottom);                                // go to start position
+        triangle.lineTo(viewRect.left + viewRect.width()* percentage, viewRect.bottom); // draw base line
+        triangle.lineTo(viewRect.left + viewRect.width()* percentage,
+                viewRect.top + viewRect.height() -
+                        (float) (viewRect.width()* (percentage) * Math.tan(angle)));    // draw height line
+        triangle.lineTo(viewRect.left, viewRect.bottom);                                // draw the hypotenuse
         triangle.close();
     }
 
