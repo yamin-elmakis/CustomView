@@ -14,6 +14,10 @@
         <attr name="triangle_color" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="TypingIndicator">
+        <attr name="indicator_color" format="reference"/>
+    </declare-styleable>
+
     <declare-styleable name="CircleView">
         <attr name="circle_top_color" format="reference"/>
         <attr name="circle_bottom_color" format="reference"/>

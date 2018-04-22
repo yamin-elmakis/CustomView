@@ -14,12 +14,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private VolumeView volumeView;
     private Button bPlus, bMinus;
     private ArcView arcView;
+    private SonarView sonarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         EasyLog.showLogs(true);
+        setContentView(R.layout.activity_main);
         getLayoutRes();
         initRes();
     }
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bPlus = (Button) findViewById(R.id.b_plus);
         bMinus = (Button) findViewById(R.id.b_minus);
         arcView = (ArcView) findViewById(R.id.main_arc);
+        sonarView = (SonarView) findViewById(R.id.main_sonar);
     }
 
     private void initRes() {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         arcView.setDestAngle(160, 1300);
         arcView.setHighColor(ContextCompat.getColor(this, R.color.yellow));
         arcView.setBackColorRes(R.color.red);
+//        sonarView.startAnimation();
     }
 
     @Override

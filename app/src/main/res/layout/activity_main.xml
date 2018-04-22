@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_container"
@@ -10,83 +10,142 @@
     android:orientation="vertical"
     tools:context="com.example.customview.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="VolumeView" />
-
     <LinearLayout
+        android:id="@+id/main_main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
-        <Button
-            android:id="@+id/b_minus"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/main_left_container"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/minus_sign" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <com.example.customview.VolumeView
-            android:id="@+id/custom_view"
-            android:layout_width="200dp"
-            android:layout_height="75dp"
-            android:src="@android:drawable/ic_lock_silent_mode_off"
-            app:volume_back_color="@color/purple"
-            app:volume_normal_color="@color/orange"
-            app:volume_base_percentage="0.4"
-            app:volume_high_percentage="0.7" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/b_plus"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:text="typing" />
+
+                <com.example.customview.TypingIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:indicator_color="@android:color/white" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="20dp"
+                android:text="SonarView" />
+
+            <com.example.customview.SonarView
+                android:id="@+id/main_sonar"
+                android:layout_width="120dp"
+                android:layout_height="120dp" />
+
+            <com.example.customview.SonarView
+                android:layout_width="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="ArcView" />
+
+            <com.example.customview.ArcView
+                android:id="@+id/main_arc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple"
+                android:textSize="25sp"
+                app:arc_back_color="@color/orange"
+                app:arc_width="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_right_container"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/plus_sign" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="TriangleView" />
+
+            <com.example.customview.TriangleView
+                android:id="@+id/main_triangle_view4"
+                android:layout_width="120dp"
+                android:layout_height="80dp"
+                app:triangle_color="@color/purple" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="CircleView" />
+
+            <com.example.customview.CircleView
+                android:id="@+id/main_circle"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:circle_bottom_color="@color/red"
+                app:circle_stroke_width="10dp"
+                app:circle_top_color="@color/purple" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="VolumeView" />
+
+            <Button
+                android:id="@+id/b_minus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/minus_sign" />
+
+            <com.example.customview.VolumeView
+                android:id="@+id/custom_view"
+                android:layout_width="200dp"
+                android:layout_height="75dp"
+                android:src="@android:drawable/ic_lock_silent_mode_off"
+                app:volume_back_color="@color/purple"
+                app:volume_base_percentage="0.4"
+                app:volume_high_percentage="0.7"
+                app:volume_normal_color="@color/orange" />
+
+            <Button
+                android:id="@+id/b_plus"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/plus_sign" />
+
+        </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="ArcView" />
-
-    <com.example.customview.ArcView
-        android:id="@+id/main_arc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/purple"
-        android:textSize="25sp"
-        app:arc_back_color="@color/orange"
-        app:arc_width="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="CircleView" />
-
-    <com.example.customview.CircleView
-        android:id="@+id/main_circle"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:circle_bottom_color="@color/red"
-        app:circle_stroke_width="10dp"
-        app:circle_top_color="@color/purple" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="TriangleView" />
-
-    <com.example.customview.TriangleView
-        android:id="@+id/main_triangle_view4"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        app:triangle_color="@color/purple" />
-
-</LinearLayout>
+</ScrollView>
