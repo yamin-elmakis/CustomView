@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Locale;
+
 import lib.yamin.easylog.EasyLog;
+import lib.yamin.easylog.EasyLogFormatter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,6 +23,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EasyLog.showLogs(true);
+        EasyLog.setFormatter(new EasyLogFormatter() {
+            @Override
+            public String format(String classname, String methodName, int lineNumber) {
+                return String.format(Locale.getDefault(), "[%d] %s.%s() => ", lineNumber, classname, methodName);
+            }
+        });
         setContentView(R.layout.activity_main);
         getLayoutRes();
         initRes();

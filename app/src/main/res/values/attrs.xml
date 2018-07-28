@@ -33,4 +33,10 @@
         <attr name="arc_high_color" format="reference"/>
         <attr name="arc_width" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="StarView">
+        <attr name="star_start_color" format="reference"/>
+        <attr name="star_end_color" format="reference"/>
+    </declare-styleable>
+
 </resources>
