@@ -20,8 +20,6 @@ public class SonarView extends View {
 
     private final int POINT_ARRAY_SIZE = 60;
 
-    private int fps = 60;
-
     private int center, radius, dotRadius, alphaStep, alphaDirection;
     private Random random;
     float angle = 0;
@@ -33,7 +31,7 @@ public class SonarView extends View {
         @Override
         public void run() {
             invalidate();
-            mHandler.postDelayed(this, 1000 / fps);
+            mHandler.postDelayed(this, 17);
         }
     };
 
@@ -74,14 +72,6 @@ public class SonarView extends View {
 
     public void stopAnimation() {
         mHandler.removeCallbacks(mTick);
-    }
-
-    public void setFrameRate(int fps) {
-        this.fps = fps;
-    }
-
-    public int getFrameRate() {
-        return this.fps;
     }
 
     @Override
@@ -154,7 +144,7 @@ public class SonarView extends View {
 
         // draw the dot
         int dotAlpha = dotPaint.getAlpha();
-        if (alphaDirection > 0 && dotAlpha >= 200)
+        if (alphaDirection > 0 && dotAlpha >= 250)
             alphaDirection = -3;
         else if (alphaDirection < 0 && dotAlpha <= 4) {
             updateDot();

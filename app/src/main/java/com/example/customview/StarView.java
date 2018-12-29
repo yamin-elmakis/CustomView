@@ -139,7 +139,6 @@ public class StarView extends View {
                         (float) (center.y - outerRadius * Math.sin(angle)));
                 section += delta;
             }
-            EasyLog.e("destAngle: "+destAngle + " section: "+section);
             isOuter = !isOuter;
         }
         path.close();
