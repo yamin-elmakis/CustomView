@@ -8,7 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Animatable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -48,6 +48,7 @@ public class TypingIndicator extends View implements Animatable {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+        EasyLog.e();
         int color = Color.WHITE;
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TypingIndicator);
@@ -80,14 +81,11 @@ public class TypingIndicator extends View implements Animatable {
             }
 
             private float toRadians(int angle) {
-//                EasyLog.e("angle : " + angle);
                 if (angle > 180 || angle < 0) return 0;
                 return (float) Math.toRadians(angle);
             }
-
         };
         start();
-        EasyLog.e("end");
     }
 
     @Override
@@ -134,7 +132,6 @@ public class TypingIndicator extends View implements Animatable {
         super.onDraw(canvas);
         for (int i = 0; i < dotsCount; i++) {
             dotY[i] = (float) (layoutHeight - radius - ((Math.sin(delta[i])) * JUMP_FACTOR * radius));
-//            EasyLog.e("y: [" + i + "]" + dotY[i]);
             canvas.save();
             float translateX = startX + (radius * 2) * i + circleSpacing * i;
             canvas.translate(translateX, dotY[i]);
@@ -151,31 +148,24 @@ public class TypingIndicator extends View implements Animatable {
 
     @Override
     public void start() {
-        EasyLog.e();
         if (isStarted()) {
-            EasyLog.e("1");
             return;
         }
         if (animator == null) {
-            EasyLog.e("2");
             return;
         }
-//        for (int i = 0; i < animators.length; i++) {
         animator.addUpdateListener(animatorListener);
         animator.start();
-//        }
         invalidate();
-        EasyLog.e("3");
     }
 
     @Override
     public void stop() {
-        EasyLog.e();
-        if (animator == null || !isStarted()) return;
-        if (animator == null || !animator.isStarted()) return;
+        if (!isStarted()) return;
 
         animator.removeAllUpdateListeners();
         animator.end();
+        animator = null;
     }
 
     @Override
@@ -188,6 +178,7 @@ public class TypingIndicator extends View implements Animatable {
     @Override
     protected void onDetachedFromWindow() {
         stop();
+        EasyLog.e();
         super.onDetachedFromWindow();
     }
 }
