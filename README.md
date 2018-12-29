@@ -10,7 +10,7 @@ VolumeView
 
 ``` xml
 
-    <com.example.customview.VolumeView
+    <com.example.customview.views.basic.VolumeView
         android:layout_width="200dp"
         android:layout_height="75dp"
         android:src="@android:drawable/ic_lock_silent_mode_off"
@@ -32,7 +32,7 @@ ArcView
 
 ``` xml
 
-    <com.example.customview.ArcView
+    <com.example.customview.views.animated.ArcView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:arc_low_color="@color/red"
@@ -56,7 +56,7 @@ CircleView
 
 ``` xml
 
-    <com.example.customview.CircleView
+    <com.example.customview.views.basic.CircleView
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:circle_bottom_color="@color/red"
@@ -69,7 +69,7 @@ TriangleView
 
 ``` xml
 
-    <com.example.customview.TriangleView
+    <com.example.customview.views.basic.TriangleView
         android:layout_width="120dp"
         android:layout_height="80dp"
         app:triangle_color="@color/purple" />

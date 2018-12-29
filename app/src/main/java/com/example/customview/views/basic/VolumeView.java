@@ -1,4 +1,4 @@
-package com.example.customview;
+package com.example.customview.views.basic;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.customview.R;
 
 public class VolumeView extends View {
     private final static int MAX_PERCENTAGE_VALUE = 1;

@@ -1,4 +1,4 @@
-package com.example.customview;
+package com.example.customview.views.animated;
 
 import android.content.Context;
 import android.content.res.Resources;

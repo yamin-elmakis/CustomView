@@ -1,4 +1,4 @@
-package com.example.customview;
+package com.example.customview.views.basic;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,6 +10,8 @@ import android.graphics.RectF;
 import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.customview.R;
 
 /**
  * Created by Yamin on 20-Oct-17.

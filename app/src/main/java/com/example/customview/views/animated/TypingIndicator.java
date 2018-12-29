@@ -1,4 +1,4 @@
-package com.example.customview;
+package com.example.customview.views.animated;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+
+import com.example.customview.R;
 
 import lib.yamin.easylog.EasyLog;
 

@@ -1,4 +1,4 @@
-package com.example.customview;
+package com.example.customview.views.basic;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,6 +10,8 @@ import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.customview.R;
 
 /**
  * Created by Yamin on 25-Sep-17.

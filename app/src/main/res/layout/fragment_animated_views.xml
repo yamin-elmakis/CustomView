@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.example.customview.CustomViewsActivity">
+
+    <LinearLayout
+        android:id="@+id/main_main_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:id="@+id/main_left_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="20dp"
+                android:text="SonarView" />
+
+            <com.example.customview.views.animated.SonarView
+                android:id="@+id/main_sonar"
+                android:layout_width="120dp"
+                android:layout_height="120dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_right_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="ArcView" />
+
+            <com.example.customview.views.animated.ArcView
+                android:id="@+id/main_arc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple"
+                android:textSize="23sp"
+                app:arc_back_color="@color/orange"
+                app:arc_width="10dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="typing"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <com.example.customview.views.animated.TypingIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:indicator_color="@android:color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

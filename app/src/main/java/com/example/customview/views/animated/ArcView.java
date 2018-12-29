@@ -1,4 +1,4 @@
-package com.example.customview;
+package com.example.customview.views.animated;
 
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.customview.R;
 
 import static androidx.core.content.ContextCompat.getColor;
 

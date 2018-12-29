@@ -1,4 +1,4 @@
-package com.example.customview;
+package com.example.customview.views.basic;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.customview.R;
 
 import lib.yamin.easylog.EasyLog;
 
