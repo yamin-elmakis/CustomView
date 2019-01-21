@@ -113,8 +113,8 @@ public class SonarView extends View {
         center = Math.min(layoutWidth, layoutHeight) / 2;
         radius = (int) (Math.min(layoutWidth, layoutHeight) / 2 - Resources.getSystem().getDisplayMetrics().density);
         dotRadius = radius / 9;
-        EasyLog.e("center: "+center);
-        EasyLog.e("radius: "+radius);
+//        EasyLog.e("center: "+center);
+//        EasyLog.e("radius: "+radius);
         updateDot();
     }
 
