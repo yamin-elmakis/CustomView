@@ -39,4 +39,9 @@
         <attr name="star_end_color" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="ColorPickerView">
+        <attr name="color_picker_color" format="reference"/>
+        <!--<attr name="star_end_color" format="reference"/>-->
+    </declare-styleable>
+
 </resources>

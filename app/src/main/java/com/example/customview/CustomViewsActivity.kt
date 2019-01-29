@@ -1,14 +1,20 @@
 package com.example.customview
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.example.customview.fragments.AnimatedFragment
 import com.example.customview.fragments.BasicFragment
+import com.example.customview.fragments.InteractiveFragment
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_custom_views.*
+import kotlinx.android.synthetic.main.activity_custom_views.view.*
 
 class CustomViewsActivity : AppCompatActivity() {
 
@@ -18,7 +24,7 @@ class CustomViewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_views)
 
-        setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
@@ -32,6 +38,7 @@ class CustomViewsActivity : AppCompatActivity() {
 
         container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
+        container.setCurrentItem(2, false)
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
@@ -42,6 +49,7 @@ class CustomViewsActivity : AppCompatActivity() {
             return when (Types.values()[position]) {
                 Types.BASIC -> BasicFragment.newInstance()
                 Types.ANIMATED -> AnimatedFragment.newInstance()
+                Types.INTERACTIVE -> InteractiveFragment.newInstance()
             }
         }
 
@@ -50,5 +58,19 @@ class CustomViewsActivity : AppCompatActivity() {
         }
     }
 
-    enum class Types { BASIC, ANIMATED }
+    enum class Types { BASIC, ANIMATED, INTERACTIVE }
+}
+
+class NonSwipeableViewPager constructor(context: Context, attrs: AttributeSet?) :
+        ViewPager(context, attrs) {
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        // Never allow swiping to switch between pages
+        return false
+    }
+
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+        // Never allow swiping to switch between pages
+        return false
+    }
 }
