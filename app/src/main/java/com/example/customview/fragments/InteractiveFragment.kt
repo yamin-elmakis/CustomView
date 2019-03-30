@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.customview.R
+import com.example.customview.views.interactive.ColorChangeListener
+import kotlinx.android.synthetic.main.fragment_interactive.*
 
-class InteractiveFragment : Fragment() {
+class InteractiveFragment : Fragment(), ColorChangeListener {
 
     companion object {
         fun newInstance(): InteractiveFragment {
@@ -26,10 +28,10 @@ class InteractiveFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        interactive_color_picker.colorChangeListener  = this
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+    override fun onColorChanged(color: Int) {
+        line.setBackgroundColor(color)
     }
-
 }

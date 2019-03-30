@@ -48,12 +48,14 @@
         android:id="@+id/interactive_color_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="28dp"
-        android:paddingEnd="8dp"
+        android:paddingStart="60dp"
+        android:paddingEnd="60dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="10dp"
         android:background="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/interactive_color_picker" />
 
