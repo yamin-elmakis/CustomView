@@ -50,7 +50,6 @@ public class TypingIndicator extends View implements Animatable {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
-        EasyLog.e();
         int color = Color.WHITE;
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TypingIndicator);
@@ -180,7 +179,6 @@ public class TypingIndicator extends View implements Animatable {
     @Override
     protected void onDetachedFromWindow() {
         stop();
-        EasyLog.e();
         super.onDetachedFromWindow();
     }
 }
