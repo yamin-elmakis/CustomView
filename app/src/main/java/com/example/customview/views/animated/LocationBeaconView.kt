@@ -75,11 +75,10 @@ class LocationBeaconView @JvmOverloads constructor(
         midPaint.strokeWidth = strokeWidth
         smallPaint.strokeWidth = strokeWidth
 
-        val size = strokeWidth * 1.1f
-        bigArcRect.set(size + paddingLeft,
-                size + paddingTop,
-                (2 * resolveWidth).toFloat() - 2 * size - paddingRight.toFloat(),
-                (2 * resolveHeight).toFloat() - 2 * size - (2 * paddingBottom).toFloat() - paddingTop.toFloat())
+        bigArcRect.set(strokeWidth / 2 + paddingLeft,
+                strokeWidth / 2 + paddingTop,
+                2f * resolveWidth - 1.5f * strokeWidth - paddingLeft - paddingRight,
+                2f * resolveHeight - 1.5f * strokeWidth - paddingBottom - paddingTop)
 
         midArcRect.set(bigArcRect.left + 2 * strokeWidth, bigArcRect.top + 2 * strokeWidth, bigArcRect.right - 2 * strokeWidth, bigArcRect.bottom - 2 * strokeWidth)
         smallArcRect.set(midArcRect.left + 2 * strokeWidth, midArcRect.top + 2 * strokeWidth, midArcRect.right - 2 * strokeWidth, midArcRect.bottom - 2 * strokeWidth)
