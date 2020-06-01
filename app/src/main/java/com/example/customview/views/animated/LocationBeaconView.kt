@@ -6,9 +6,12 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.drawable.Animatable
-import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.subscribeBy
+import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
 class LocationBeaconView @JvmOverloads constructor(
@@ -30,37 +33,9 @@ class LocationBeaconView @JvmOverloads constructor(
     private val smallPaint = getBasePaint()
 
     private var stageValue: Int = 0
-    private val beaconHandler = Handler()
-    internal var beaconRunnable: Runnable = object : Runnable {
-        override fun run() {
-            val currentStage = (++stageValue) % 4
-            when (currentStage) {
-                0 -> {
-                    bigPaint.color = Color.GRAY
-                    midPaint.color = Color.GRAY
-                    smallPaint.color = Color.GRAY
-                }
-                1 -> {
-                    bigPaint.color = Color.GRAY
-                    midPaint.color = Color.GRAY
-                    smallPaint.color = Color.WHITE
-                }
-                2 -> {
-                    bigPaint.color = Color.GRAY
-                    midPaint.color = Color.WHITE
-                    smallPaint.color = Color.WHITE
-                }
-                3 -> {
-                    bigPaint.color = Color.WHITE
-                    midPaint.color = Color.WHITE
-                    smallPaint.color = Color.WHITE
-                }
-            }
+    private var isRunning: Boolean = false
 
-            postInvalidate()
-            beaconHandler.postDelayed(this, ANIMATION_DELAY)
-        }
-    }
+    var disposable = CompositeDisposable()
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val desiredWidth = suggestedMinimumWidth + paddingLeft + paddingRight
@@ -93,32 +68,66 @@ class LocationBeaconView @JvmOverloads constructor(
     }
 
     private fun getBasePaint(): Paint = Paint().apply {
-        color = Color.BLACK
+        color = Color.GRAY
         style = Paint.Style.STROKE
         isAntiAlias = true
         strokeCap = Paint.Cap.ROUND
     }
 
+    private fun updateStage(currentStage: Int) {
+        when (currentStage) {
+            0 -> {
+                bigPaint.color = Color.GRAY
+                midPaint.color = Color.GRAY
+                smallPaint.color = Color.GRAY
+            }
+            1 -> {
+                bigPaint.color = Color.GRAY
+                midPaint.color = Color.GRAY
+                smallPaint.color = Color.WHITE
+            }
+            2 -> {
+                bigPaint.color = Color.GRAY
+                midPaint.color = Color.WHITE
+                smallPaint.color = Color.WHITE
+            }
+            3 -> {
+                bigPaint.color = Color.WHITE
+                midPaint.color = Color.WHITE
+                smallPaint.color = Color.WHITE
+            }
+        }
+
+        postInvalidate()
+    }
+
     override fun start() {
-        beaconHandler.removeCallbacks(beaconRunnable)
-        beaconHandler.post(beaconRunnable)
+        isRunning = true
     }
 
     override fun isRunning(): Boolean {
-        return isAttachedToWindow
+        return isRunning
     }
 
     override fun stop() {
-        beaconHandler.removeCallbacks(beaconRunnable)
+        isRunning = false
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        disposable.add(Observable.interval(0, ANIMATION_DELAY, TimeUnit.MILLISECONDS)
+                .filter { isRunning }
+                .subscribeBy(onNext = {
+                    stageValue = (++stageValue) % 4
+                    updateStage(stageValue)
+                })
+        )
         start()
     }
 
     override fun onDetachedFromWindow() {
         stop()
+        disposable.clear()
         super.onDetachedFromWindow()
     }
 }

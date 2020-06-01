@@ -45,9 +45,14 @@
 
             <com.example.customview.views.animated.LocationBeaconView
                 android:id="@+id/main_location_beacon"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_width="180dp"
+                android:layout_height="180dp" />
 
+            <Button
+                android:id="@+id/main_test_btn"
+                android:layout_width="wrap_content"
+                android:text="stop"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
